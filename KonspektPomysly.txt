@@ -1,0 +1,39 @@
+Tu uzupełniamy sprawy konspetkowe 
+
+TO JEST TAKI BRUDNOPIS, WIĘC DOPISUJCEI ILE WLEZIE
+
+TODO:
+-co robimy w końcu
+-wybrać jedną rzecz i sypać w przypadki użycia... co to ma robić (może być za dużo to prowadzący wyrzuci jakmniej ważne)
+-dopisać do technologii wszystko co znamy albo o czym kiedykolwiek słyseliśmy
+
+
+
+POMYSŁY
+-sklep (chociaż to trochę za ogólne)
+-kino
+-lotnisko
+-dom aukcji (chociaż co tu mozna dać?)
+-biuro rzeczy znalezionych (tu też nie mam pomysłu jakie przypadkki użycia)
+
+**to chyba lotnisko, bo na fb Seba zarzucił sporo pomysłów do scenariuszy, poza tym baze będzie bogata 
+
+PRZYPADKI UŻYCIA/ SCENARIUSZE/ FUNKCJONALNOŚCI (jeśli nikt nie ma przeciwko lotnisku to klepcie tutaj use casy ogólnie albo bardziej szeczółowo - jak wolicie)
+
+
+
+TECHNOLOGIE (nie bójcie się specjalnie wymieniam za dużo, ale możecie też dodać coś od siebie):
+języki programowania c++, c, java, groovy, python, html, php, javascript, lua, css
+bazy danych: SQLITE (imo tej będziemy używać, bo najprościej, ale dopisze też inne na wszelki wypadek), postgresql, mysql, mongodb
+przydatne libki, frameworki (jak coś znacie dopiszcie, żeby było wiadamo z czego możemy korzystać :))
+- boost (c++)
+- qt (c++)
+- django (python) - taki szalony pomysł, żeby robić wszytsko w tym, ale nikt z nas nie zna za dobrze pythona. Chociaż jakbyśmy w 3 (proramiści) nad tym usiedli to zawsze można razem coś wykminić
+- ktest (c++)
+- githubowe repozytoria (jakby się nalazło coś czego możemy użyć)
+- jquery
+- STL (c++)
+- heroku (taki cloud, które darmowe zasoby wystarczą do naszego projektu, więc można poszpanować, że zrobiliśmy apkę w chmurze (wowowow))
+- jak umiecie na jakimś serwerze postawć bazę to piszcie
+- pythonowe moduły
+- 
