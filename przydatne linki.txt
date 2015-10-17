@@ -4,4 +4,7 @@ TODO:
 -wrzuć ktoś link do strony prowadzącego
 
 LINKI: (jeszcze nic nie ma ale jak wybierzemy technologie to pewnie jakieś linki do dokumentacji tu powrzucamy)
-
+1) GIT CHEATSHEET: 
+https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf
+2) GIT TUTORIAL:
+https://www.atlassian.com/git/tutorials
