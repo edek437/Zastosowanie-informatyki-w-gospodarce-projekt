@@ -4,5 +4,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Zastosowanie_medycyny_w_gospodarce" />
+    <orderEntry type="module" module-name="helloMySite" />
   </component>
 </module>
