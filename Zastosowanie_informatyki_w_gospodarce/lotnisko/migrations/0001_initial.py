@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('reservation_id', models.CharField(max_length=254, serialize=False, primary_key=True)),
                 ('status', models.CharField(max_length=254, choices=[(b'Paid', b'Paid'), (b'Canceled', b'Canceled')])),
-                ('luggage', models.ForeignKey(to='lotnisko.Luggage', blank=True)),
+                ('luggage', models.ForeignKey(to='lotnisko.Luggage')),
                 ('passenger', models.ForeignKey(to='lotnisko.Passenger')),
             ],
         ),
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                 ('surname', models.CharField(max_length=254)),
                 ('phone', models.IntegerField(blank=True)),
                 ('email', models.EmailField(max_length=254, blank=True)),
-                ('job_title', models.CharField(max_length=254, choices=[(b'HR', b'HR'), (b'Manager', b'Manager'), (b'Receptionist', b'Receptionist'), (b'Security', b'Security'), (b'Cleaner', b'Cleaner')])),
+                ('job_title', models.CharField(max_length=254, choices=[(b'HR', b'HR'), (b'Manager', b'Manager'), (b'Receptionist', b'Receptionist'), (b'Flight Coordinator', b'Flight Coordinator'), (b'Cleaner', b'Cleaner')])),
                 ('salary', models.IntegerField()),
             ],
             options={

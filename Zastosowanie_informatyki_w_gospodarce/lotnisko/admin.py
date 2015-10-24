@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import Flight
-from .models import Staff
+from .models import Passenger
 from .models import Reservation
+from .models import ReservedSeat
 from .models import StartLane
 from .models import StaffScheduleField
 from .models import StartLaneScheduleField
@@ -10,6 +11,16 @@ from .models import Plane
 from .models import Pilot
 
 # Register your models here.
+
+
+class AirLinesAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+    ]
+
+    list_display = [
+        'name'
+    ]
 
 
 class FlightAdmin(admin.ModelAdmin):
@@ -21,6 +32,9 @@ class FlightAdmin(admin.ModelAdmin):
         ('Destination', {'fields': ['destination']}),
         ('Lane', {'fields': ['start_lane']}),
         ('Status', {'fields': ['status']}),
+        ('EClassReserved', {'fields': ['reserved_economic_class_seats']}),
+        ('BClassReserved', {'fields': ['reserved_business_class_seats']}),
+        ('1stClassReserved', {'fields': ['reserved_first_class_seats']}),
     ]
 
     list_display = [
@@ -30,6 +44,9 @@ class FlightAdmin(admin.ModelAdmin):
         'destination',
         'start_lane',
         'status',
+        'reserved_economic_class_seats',
+        'reserved_business_class_seats',
+        'reserved_first_class_seats',
     ]
 
     list_filter = ['flight_date']
@@ -42,31 +59,79 @@ class FlightAdmin(admin.ModelAdmin):
     ]
 
 
-class StaffAdmin(admin.ModelAdmin):
+class PassengerAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name', {'fields': ['name']}),
         ('Surname', {'fields': ['surname']}),
-        ('Phone', {'fields': ['phone']}),
         ('Email', {'fields': ['email']}),
-        ('Who is he?', {'fields': ['job_title']}),
     ]
 
     list_display = [
         'name',
         'surname',
-        'job_title',
     ]
 
     list_filter = [
-        'job_title',
+        'name',
         'surname',
-        'name'
     ]
 
     search_fields = [
         'name',
         'surname',
-        'job_title',
+    ]
+
+
+class PilotAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+        ('Surname', {'fields': ['surname']}),
+        ('Airlines', {'fields': ['airlines']}),
+    ]
+
+    list_display = [
+        'name',
+        'surname',
+        'airlines',
+    ]
+
+    list_filter = [
+        'name',
+        'surname',
+        'airlines',
+    ]
+
+    search_fields = [
+        'name',
+        'surname',
+        'airlines',
+    ]
+
+
+class PlaneAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+        ('Airlines', {'fields': ['airlines']}),
+        ('EClassLimit', {'fields': ['economic_class_seats']}),
+        ('BClassLimit', {'fields': ['business_class_seats']}),
+        ('1stClassLimit', {'fields': ['first_class_seats']}),
+    ]
+
+    list_display = [
+        'name',
+        'airlines',
+        'economic_class_seats',
+        'business_class_seats',
+        'first_class_seats',
+    ]
+
+    list_filter = [
+        'airlines',
+    ]
+
+    search_fields = [
+        'name',
+        'airlines',
     ]
 
 
@@ -76,14 +141,16 @@ class ReservationAdmin(admin.ModelAdmin):
         ('Passenger', {'fields': ['passenger']}),
         ('Status', {'fields': ['status']}),
         ('Seat', {'fields': ['seat']}),
-        ('Luggage', {'fields': ['luggage']}),
+        ('Hand Luggage Surcharge', {'fields': ['hand_luggage_surcharge']}),
+        ('Hold Luggage Surcharge', {'fields': ['hold_luggage_surcharge']}),
     ]
 
     list_display = [
         'passenger',
         'status',
         'reservation_id',
-        'luggage',
+        'hand_luggage_surcharge',
+        'hold_luggage_surcharge',
     ]
 
     list_filter = [
@@ -96,16 +163,20 @@ class ReservationAdmin(admin.ModelAdmin):
         'passenger',
         'status',
         'reservation_id',
+        'hand_luggage_surcharge',
+        'hold_luggage_surcharge',
     ]
 
 
-class StartLaneAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Name', {'fields': ['name']}),
+class ReservedSeatAdmin(admin.ModelAdmin):
+    list_filter = [
+        'flight',
+        'seat_type',
     ]
 
-    list_display = [
-        'name'
+    search_fields = [
+        'flight',
+        'seat_type',
     ]
 
 
@@ -139,6 +210,16 @@ class StaffScheduleAdmin(admin.ModelAdmin):
     ]
 
 
+class StartLaneAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+    ]
+
+    list_display = [
+        'name'
+    ]
+
+
 class StartLaneScheduleAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Day', {'fields': ['date']}),
@@ -169,78 +250,13 @@ class StartLaneScheduleAdmin(admin.ModelAdmin):
     ]
 
 
-class AirLinesAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Name', {'fields': ['name']}),
-    ]
-
-    list_display = [
-        'name'
-    ]
-
-
-class PlaneAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Airlines', {'fields': ['airlines']}),
-        ('EClassLimit', {'fields': ['economic_class_seats']}),
-        ('EClassReserved', {'fields': ['reserved_economic_class_seats']}),
-        ('BClassLimit', {'fields': ['business_class_seats']}),
-        ('BClassReserved', {'fields': ['reserved_business_class_seats']}),
-        ('1stClassLimit', {'fields': ['first_class_seats']}),
-        ('1stClassReserved', {'fields': ['reserved_first_class_seats']}),
-    ]
-
-    list_display = [
-        'airlines',
-        'economic_class_seats',
-        'reserved_economic_class_seats',
-        'business_class_seats',
-        'reserved_business_class_seats',
-        'first_class_seats',
-        'reserved_first_class_seats',
-    ]
-
-    list_filter = [
-        'airlines',
-    ]
-
-    search_fields = [
-        'airlines',
-    ]
-
-
-class PilotAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Name', {'fields': ['name']}),
-        ('Surname', {'fields': ['surname']}),
-        ('Pilot', {'fields': ['airlines']}),
-    ]
-
-    list_display = [
-        'name',
-        'surname',
-        'airlines',
-    ]
-
-    list_filter = [
-        'name',
-        'surname',
-        'airlines',
-    ]
-
-    search_fields = [
-        'name',
-        'surname',
-        'airlines',
-    ]
-
-
+admin.site.register(AirLines, AirLinesAdmin)
 admin.site.register(Flight, FlightAdmin)
-admin.site.register(Staff, StaffAdmin)
+admin.site.register(Passenger, PassengerAdmin)
 admin.site.register(Pilot, PilotAdmin)
 admin.site.register(Plane, PlaneAdmin)
-admin.site.register(AirLines, AirLinesAdmin)
-admin.site.register(StartLaneScheduleField, StartLaneScheduleAdmin)
-admin.site.register(StaffScheduleField, StaffScheduleAdmin)
-admin.site.register(StartLane, StartLaneAdmin)
 admin.site.register(Reservation, ReservationAdmin)
+admin.site.register(ReservedSeat, ReservedSeatAdmin)
+admin.site.register(StaffScheduleField, StaffScheduleAdmin)
+admin.site.register(StartLaneScheduleField, StartLaneScheduleAdmin)
+admin.site.register(StartLane, StartLaneAdmin)
