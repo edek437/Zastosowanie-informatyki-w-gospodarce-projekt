@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% if user.is_active and user.is_staff %}
+    <p>HELLO {{ name }}</p>
+    <p>There will be schelude</p>
+    <p>but for now I only want to see</p>
+    <p>this message :D</p>
+{% else %}
+    <p>You have no power here! Muhahahahahaha!!!</p>
+{% endif %}
+</body>
+</html>
