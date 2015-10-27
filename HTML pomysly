@@ -1,0 +1,46 @@
+Dobra, baza już mniej więcej jest postawiona (mogę wprowadzić jeszcze jakieś małe modyfikacje), więc przydałoby się zacząć klepać html'e. IMO do napisania są następujące strony
+
+1) Główna strona lotniska, która powinna zawierać:
+-jakiś jebitny nagłówek "witamy na lotnisku [tu wstaw nazwę]" (ale to małe ważne)
+-jakieś tło (niebo, samoloty i takie tam)
+-okno, w którym widać kilka najbliższych przylotów i odlotów (narazie tylo odlotów, bo w sumie baza nie rozróżnia jeszcze tych dwóch :()
+-przycisk rezerwuj lot
+-jeszcze cos (jakieś bzdury typu lokalizacja lotniska, kontakt) ??
+
+2) Strona rezerwacji lotu
+-wspólny interfejs dla pracownika/usera
+-podzielona na 3 etapy
+a) wybierz dzień lotu i kierunek
+b) wybierz samolot i zarezerwuj odpowiednią ilość miejsc w odpowiedniej klasie (olewamy ew. zniżki na bachory)
+c) uzupełnij dane rezerwacji, a my ci przyślemy na maila nr rezerwacji (albo wygenerujemy na miejscu, płatnośc tylko na lotnisku, a jeśli rudy się nie przywali to tak zostanie)
+- każdy kolejny etap pokazuje się jak user/pracownik wykona poprzedni 
+
+3) Strona z zajętością poszczególnych pasów startowych*
+-dostępna tylko dla koordyatora lotów (tak go nazwałem)
+
+4) Strona z grafikami pracowników*
+-pracownicy mogą przeglądać swoje grafiki, ale nie moga ich edytować
+-manager ma dostęp do grafików wszystkich pracowników i może decydować keidy pracują
+-tylko trza rozkminić jak jakiś manager może podglądać grafiki kilku pracowników naraz ale to później
+
+*to w formie jakegoś kalendarza wyświetlać. NA githubie znalazłem coś takeigo:
+https://github.com/sandlbn/django-bootstrap-calendar
+ale trzeba oragnąć jak tego używać
+
+5) Strona odprawy bagażu
+-podzielona na 4 etapy
+a) prosi o położenie bagażu na wagę i podaniu typu bagażu (podręczny, ten drugi :D)
+b) patrzy czy jest nadwaga i żąda dopłaty (czyt. generujemy losową wagę i naliczamy opłate wg taryfikatora)
+c) użytkownik dopłaca kasę jak trzeba i klika ok
+d) maszyna patrzy czy ok a jak nie to powrót do c (czyt. generujemy losową liczbe "i". jak (i%100)>97 to powtrót do c)
+
+Technologia:
+-Bootstrap
+-Html
+-Css
+-js i jQuery
+
+Linki:
+googlujcie wszytko czego nie wiecie, a traficie na stackoverflow'a, w3school'a, doc'i django i jquery oraz ew. jakieś blogi i tutoriale
+
+What do you think, everyone?

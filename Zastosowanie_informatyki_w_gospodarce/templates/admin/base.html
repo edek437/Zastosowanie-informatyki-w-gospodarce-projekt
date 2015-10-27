@@ -47,7 +47,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                <a href="{% url 'lotnisko:schedule' %}">{% trans 'My Schedule' %}</a> /
+                <a href="{% url 'calendar:calendar' %}">{% trans 'My Schedule' %}</a> /
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}

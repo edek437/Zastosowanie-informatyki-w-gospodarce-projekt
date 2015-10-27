@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r"^", include("lotnisko.urls", namespace="lotnisko")),
+    url(r'^calendar/', include('django_bootstrap_calendar.urls', namespace='calendar')),
     url(r'^admin/', include(admin.site.urls)),
 ]

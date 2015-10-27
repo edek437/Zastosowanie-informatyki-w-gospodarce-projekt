@@ -29,13 +29,6 @@ class ScheduleField(models.Model):  # TODO: make start and end time unique for d
         abstract = True
 
 
-class StaffScheduleField(ScheduleField):
-    staff = models.ForeignKey(User)
-
-    def __str__(self):
-        return '%s: %s-%s' % (self.staff, self.start_time, self.end_time)
-
-
 class AirLines(models.Model):
     name = models.CharField(max_length=254)
 

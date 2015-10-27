@@ -4,7 +4,6 @@ from .models import Passenger
 from .models import Reservation
 from .models import ReservedSeat
 from .models import StartLane
-from .models import StaffScheduleField
 from .models import StartLaneScheduleField
 from .models import AirLines
 from .models import Plane
@@ -180,36 +179,6 @@ class ReservedSeatAdmin(admin.ModelAdmin):
     ]
 
 
-class StaffScheduleAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Day', {'fields': ['date']}),
-        ('From', {'fields': ['start_time']}),
-        ('To', {'fields': ['end_time']}),
-        ('Name', {'fields': ['staff']}),
-    ]
-
-    list_display = [
-        'date',
-        'staff',
-        'start_time',
-        'end_time',
-    ]
-
-    list_filter = [
-        'date',
-        'staff',
-        'start_time',
-        'end_time',
-    ]
-
-    search_fields = [
-        'date',
-        'staff',
-        'start_time',
-        'end_time',
-    ]
-
-
 class StartLaneAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name', {'fields': ['name']}),
@@ -257,6 +226,5 @@ admin.site.register(Pilot, PilotAdmin)
 admin.site.register(Plane, PlaneAdmin)
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(ReservedSeat, ReservedSeatAdmin)
-admin.site.register(StaffScheduleField, StaffScheduleAdmin)
 admin.site.register(StartLaneScheduleField, StartLaneScheduleAdmin)
 admin.site.register(StartLane, StartLaneAdmin)
