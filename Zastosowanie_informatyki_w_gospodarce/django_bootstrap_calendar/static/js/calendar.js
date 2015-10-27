@@ -463,10 +463,8 @@ if(!String.prototype.formatNum) {
 		$.each(data.events, function(k, e) {
 			var s = new Date(parseInt(e.start));
 			var f = new Date(parseInt(e.end));
-			//HACKY +1 HERE
-			e.start_hour = (s.getHours()).toString().formatNum(2) + ':' + s.getMinutes().toString().formatNum(2);
-			e.end_hour = (f.getHours()).toString().formatNum(2) + ':' + f.getMinutes().toString().formatNum(2);
-			//HACKY +1 OVER
+			e.start_hour = s.getHours().toString().formatNum(2) + ':' + s.getMinutes().toString().formatNum(2);
+			e.end_hour = f.getHours().toString().formatNum(2) + ':' + f.getMinutes().toString().formatNum(2);
 			if(e.start < start.getTime()) {
 				warn(1);
 				e.start_hour = s.getDate() + ' ' + $self.locale['ms' + s.getMonth()] + ' ' + e.start_hour;
