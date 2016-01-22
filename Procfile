@@ -1,1 +1,1 @@
-web: python manage.py runserver 0.0.0.0:5000
+web: gunicorn Zastosowanie_informatyki_w_gospodarce.wsgi --log-file -
