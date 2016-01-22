@@ -1,0 +1,66 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lotnisko_main_page.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd",  minDate: 0 }).attr("readonly", "readonly").val();
+  });
+  $(function(){
+      $("#submit").on('click', function(e){
+           e.preventDefault();
+           $.ajax({
+               url: "/flights",
+               method: "get",
+               data: {date: $("#datepicker").val(), dest: $("#destination").val()},
+               success: function(data2){ $('#flights').html(data2); $( "#selectable" ).selectable(); }
+           });
+       });
+   });
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rezerwacja</title>
+</head>
+
+<body>
+<div id="container">
+	<div id="logo">
+		<img src="{% static "image/plane.png" %}" />
+	</div>
+	
+	<div id="menu">	
+		<ol>
+			<li><a href="/">Strona główna</a></li>
+			<li><a href="reservation_page.html">Wyszukaj lot</a></li>
+			<li><a href="registration_page.html">Rejestracja</a></li>
+			<li><a href="#">Logowanie</a>
+				<ul>
+					<li><a href="user_login.html">Użytkownik</a></li>
+					<li><a href="admin">Pracownik</a></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+		<div id="center">
+			<h2>Wybór lotu</h2>
+				  <form>
+					<b>Date: </b><input type="text" id="datepicker" readonly><br/>
+					<b>Destination: </b><input type="text" id="destination" /><br/>
+					<input id="submit" type="button" value="Pokaz loty" />
+				  </form>
+		</div>
+	
+		<div id="flights"></div>
+		
+		<div id="seats"></div>
+		
+		<div id ="footer">
+				Wszystkie prawa zastrzeżone &copy;
+		</div>		
+</html>

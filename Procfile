@@ -1,0 +1,1 @@
+web: Zastosowanie_informatyki_w_gospodarce.wsgi 

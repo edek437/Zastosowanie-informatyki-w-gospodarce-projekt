@@ -1,0 +1,26 @@
+{% if not flights %}
+    <p> Przepraszamy. Brak lotów dla zadanego kryterium :( </p>
+{% else %}
+    <table style="width:100%; text-align:center">
+    <tr><td>NR LOTU</td><td>DATA ODLOTU</td><td>CEL</td><td>STATUS</td><td>Dokonaj rezerwacji</td></tr>
+{% for flight in flights %}
+    {% if flight.status == "Scheduled" %}
+        <tr><td>{{flight}}</td><td>{{flight.flight_date}}</td><td>{{flight.destination}}</td><td>{{flight.status}}</td><td><button class="btn" id="{{flight.flight_number}}">Zarezerwuj miejsce</button></td></tr>
+    {% else %}
+        <tr><td>{{flight}}</td><td>{{flight.flight_date}}</td><td>{{flight.destination}}</td><td>{{flight.status}}</td><td>Przepraszamy. Rezerwacja niemozliwa</td></tr>
+    {% endif %}
+{% endfor %}
+    </table>
+{% endif %}
+
+<script>
+   $(".btn").click(function(){
+       var id = this.id;
+        $.ajax({
+           url: "/show_seats",
+           method: "get",
+           data: {flight_pk: id},
+           success: function(data2){$('#seats').html(data2); }
+       })
+   });
+</script>

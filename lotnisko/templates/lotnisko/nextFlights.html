@@ -1,0 +1,22 @@
+{% if not flights %}
+    <p> Sorry, we probably bankrupted because no flight are leaving our airport anymore :( </p>
+{% else %}
+    <h2>Najblizsze odloty:</h2>
+
+    <table style="width:100%; text-align:center">
+    <tr><td>NR LOTU</td><td>DATA ODLOTU</td><td>CEL</td><td>STATUS</td><td>Dokonaj rezerwacji</td></tr>
+{% for flight in flights %}
+    {% if flight.status == "Scheduled" %}
+        <tr><td>{{flight}}</td><td>{{flight.flight_date}}</td><td>{{flight.destination}}</td><td>{{flight.status}}</td><td><button class="btn" id="{{flight.flight_number}}">Zarezerwuj miejsce</button></td></tr>
+    {% else %}
+        <tr><td>{{flight}}</td><td>{{flight.flight_date}}</td><td>{{flight.destination}}</td><td>{{flight.status}}</td><td>Przepraszamy. Rezerwacja niemozliwa</td></tr>
+    {% endif %}
+{% endfor %}
+    </table>
+{% endif %}
+<script>
+$(".btn").click(function(){
+       var id = this.id
+       self.location.href=('user_login.html?flight_pk='+id)
+})
+ </script>

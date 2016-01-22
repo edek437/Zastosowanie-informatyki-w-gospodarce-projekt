@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+
+
+var datepickerHack = 0
+function getDateOffset(sign) {
+  switch(sign) {
+    case '+':
+      datepickerHack++;
+      break;
+    case '-':
+      datepickerHack--;
+      break;
+    default:
+      return ''+datepickerHack;
+  }
+  return (datepickerHack>0 ? '+' : '-')+datepickerHack;
+}
+
+$(function(){
+   $.ajax({
+       url: "/get_unassigned_flights",
+       method: "get",
+       data: {limit: 10},
+       success: function(returnValue){
+          flights = JSON.parse(returnValue);
+          flights.map(function(flight){
+              $('#unassignedFlights tr:last')
+                  .after("<tr id=\""+flight.pk+"\"><td>"+flight.pk+"</td><td>"+flight.flight_date+"</td><td>"+flight.destination+"</td><td><button class=\"przydzielButton\">Przydziel</button></td></tr>");
+          });
+       }
+   });
+});
+
+$(function() {
+    $( "#laneDatepicker" ).datepicker({
+      dateFormat: "yy-mm-dd",
+      defaultDate: new Date(),
+      onSelect: function(dateText, inst) {
+        var date = $("#laneDatepicker").datepicker('getDate');
+        get_flights_for_given_date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+      }
+    }).attr("readonly", "readonly").val();
+    $( "#formDatepicker" ).datepicker({ dateFormat: "yy-mm-dd",  minDate: 0 }).attr("readonly", "readonly").val();
+});
+
+$(function() {
+    $('#prevDay').click(function(){
+        $("#laneDatepicker").datepicker('setDate', getDateOffset('-'));
+        var date = $("#laneDatepicker").datepicker('getDate');
+        get_flights_for_given_date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+    });
+});
+
+$(function() {
+    $('#nextDay').click(function(){
+        $("#laneDatepicker").datepicker('setDate', getDateOffset('+'));
+        var date = $("#laneDatepicker").datepicker('getDate');
+        get_flights_for_given_date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+    });
+});
+
+$(function(){
+   var date = new Date()
+   var YYMMDD = date.getYear()+"-"+date.getMonth()+"-"+date.getDate()
+   $.ajax({
+       url: "/get_fc_flights",
+       method: "get",
+       data: {date: YYMMDD},
+       success: function(returnValue){
+         var flights = JSON.parse(returnValue);
+         console.log('flights');
+         console.log(flights);
+         console.log('####')
+         flights.map(function(flight_info){
+           $('#my_tickets tr:last')
+             .after("<tr><td>"+flight_info.flight_number+"</td><td>"+flight_info.date+"</td><td>"+flight_info.destination+"</td><td><button class=\"przydzielButton\">Przydziel lot</button></tr>");
+         });
+       }
+   });
+});
+
+$(function(){
+   $.ajax({
+       url: "/get_flight_lanes",
+       method: "get",
+       data: {},
+       success: function(returnValue){
+         var lanes = JSON.parse(returnValue);
+         console.log('lanes');
+         console.log(lanes);
+         console.log('####')
+         lanes.map(function(laneName){
+           $('#startLanes tr:last')
+             .after("<tr><td>"+laneName+"</td><td>Tu mati ogarnij, zeby byla podzialka na godziny jakos</td></tr>");
+         });
+         var date = new Date();
+         var YYMMDD = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+         get_flights_for_given_date(YYMMDD)
+       }
+   });
+});
+
+
+function get_flights_for_given_date(YYMMDD) {
+   $.ajax({
+       url: "/get_flights_for_given_date",
+       method: "get",
+       data: {date: YYMMDD},
+       success: function(returnValue){
+         console.log(JSON.parse(returnValue));
+       }
+   });
+}
+
+function remove_flight_from_start_lane(fpk) {
+   console.log(fpk);
+   $.ajax({
+       url: "/remove_flight_from_start_lane",
+       method: "get",
+       data: {fpk: fpk},
+       success: function(returnValue){
+         console.log(JSON.parse(returnValue));
+         $('#'+fpk).remove();
+       }
+   });
+}
+
+$(function(){
+    $("#assign").click(function(){
+       if($('#fpk').val()=='' || $('#start_lane').val()=='' || $('#from').val()=='' || $('#to').val() ==''){
+          alert("wszystkie powyższe pola sa wymagane!");
+          return;
+       }
+       if($('#from').val().match(/[0-9]{1,2}:[0-9]{2}/)==null || $('#to').val().match(/[0-9]{1,2}:[0-9]{2}/)==null){
+          alert('Zły format godziny. Oczekuje HH:MM.');
+          return;
+       }
+       $.ajax({
+           url: "/assign_flight_to_start_lane",
+           method: "get",
+           data: {
+             fpk: $('#fpk').val(),
+             start_lane: $('#start_lane').val(),
+             from: $('#from').val(),
+             to: $('#to').val()
+           },
+           success: function(returnValue){
+             var data = JSON.parse(returnValue);
+             if(data.status == "OK") {
+               var pk = $('#fpk').val();
+               $('#'+pk).remove();
+             } else {
+               alert("Wystapil blad: " + data.status);
+             }
+           }
+       });
+    });
+});
+
+</script>
+<body>
+<p>Mati pisze co tu jest do zrobienia do ciebie jako frontendu :)</p>
+<p> Wszystko co wysyła baza znajdziesz z consoli (prawy -> inspect element -> console)</p>
+<p>Bo ja tu dzisiaj klepie draft łączę go z bazą i reszta należy do ciebie :)</p>
+<p>Masz taska rozkminic jak beda wygladaly linie i jak bedzie sie klikalo przycisk ktory zwolni pas startowy</p>
+<table id="startLanes">
+  <caption>Manadzer pasow startowych</caption>
+  <tr><button id="prevDay"><-</button><input type="text" id="laneDatepicker" readonly><button id="nextDay">-></button></tr>
+</table>
+
+<table id="unassignedFlights">
+    <caption>Nieprzydizelone loty</caption>
+    <tr><td>LOT</td><td>DATA</td><td>CEL</td><td><button class="przydzielButton">Przydziel</button></td></tr>
+</table>
+
+
+<p> Ta forma ma sie pojawiac jak kliknie sie w przycisk Przydziel</p>
+<p> Narazie whardkodowalem wpisywanie id lotu, zebym mogl dzialac w bazie ale to się zmieni</p>
+<p> To też jest twój taks, bo to frontend w końcu :D</p>
+<form>
+    <p>Numer lotu: <input type="text" id="fpk" required/></p>
+    <p>Pas: <input type="text" id="start_lane" required/></p>
+    <p>Od: <input type="text" id="from" title="hh:mm"/></p>
+    <p>Do: <input type="text" id="to" title="hh:mm"/></p>
+<p><input id="assign" type="button" value="Przydziel"></p>
+</form>
+
+<p>MAti tu jest co potrzebuje w polu zajetosci pasa. Trzeba ogarnąć zeby to zajmowało odpowiednio pasek linii startowej</p>
+<p>Kokombinuj cos z klasami i ich szeroksciami, dludosciami</p>
+<p>Input jest tlyko hardcodem zebym mogl testowac czy dziala</p>
+<div >
+    <input id="tempHack" type="text"/> <!-- Jak pobiera dla danego dnia linie to uzyyj parametru fpk jako id do tych rezerwacji -->
+    <button onclick="remove_flight_from_start_lane($('#tempHack').val())">Usun lot z lini startowej</button>
+</div>
+
+</body>
+</html>

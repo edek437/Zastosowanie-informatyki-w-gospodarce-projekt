@@ -1,0 +1,225 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lotnisko_main_page.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Moje konto</title>
+</head>
+<script>
+  $(function() {
+     $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd",  minDate: 0 }).attr("readonly", "readonly").val();
+  });
+
+  $(function(){
+      $("#submit").on('click', function(e){
+           e.preventDefault();
+           $.ajax({
+               url: "/flights",
+               method: "get",
+               data: {date: $("#datepicker").val(), dest: $("#destination").val()},
+               success: function(data2){ $('#flights').html(data2); }
+           });
+       });
+  });
+
+  $(function(){
+      $("#change_personal_data").on('click', function(e){
+           e.preventDefault();
+           $.ajax({
+               url: "/change_personal_data",
+               method: "get",
+               data: {login: "{{passenger.nickname}}", new_name: $("#new_name").val(), new_surname: $("#new_surname").val(), new_email: $("#new_email").val()},
+               success: function(returnValue){
+                 var data = JSON.parse(returnValue);
+                 if(data.status == "OK") {
+                   alert("Dane zostaly zmienione");
+                 } else {
+                   alert("Podczas zmieniania danych wystapil blad: " + data.error_msg);
+                 }
+               }
+           });
+      });
+  });
+
+   function get_seats(fpk) {
+       $.ajax({
+           url: "/show_seats",
+           method: "get",
+           data: {flight_pk: fpk},
+           success: function(returnValue){$('#seats').html(returnValue); }
+       })
+   }
+
+   $(function get_my_tickets() {
+        $.ajax({
+           url: "/get_my_tickets",
+           method: "get",
+           data: {login: "{{passenger.nickname}}"},
+           success: function(returnValue){
+             var flights = JSON.parse(returnValue);
+             flights.map(function(flight_info){
+               $('#my_tickets tr:last')
+                 .after("<tr id=\""+flight_info.res_num+"\"><td>"+flight_info.res_num+"</td><td>"+flight_info.destination+"</td><td>"+flight_info.date+"</td><td>"+flight_info.seat_class+"</td><td>"+flight_info.seat_number+"</td><td>"+flight_info.price+"</td>"+(flight_info.status == "Not Paid" ? "<td><button onclick=\"purchase_reservation('"+flight_info.res_num+"')\">ZAPŁAC</button></td>" : "<td>"+flight_info.status+"</td>")+"<td><button onclick=\"resign('"+flight_info.res_num+"')\">REZYGNUJ</button></td></tr>")
+             });
+           }
+       })
+   });
+
+   function resign(res_id){
+        $.ajax({
+           url: "/cancel_reservation",
+           method: "get",
+           data: {login: "{{passenger.nickname}}", ticket: res_id},
+           success: function(returnValue){
+                $('#'+res_id).remove()
+           }
+       })
+   }
+
+   function purchase_reservation(res_id){
+        $.ajax({
+           url: "/purchase_reservation",
+           method: "get",
+           data: {ticket: res_id},
+           success: function(returnValue){ }
+       })
+   }
+
+   $(function change_pw() {
+     $("#change_password").on('click', function(e){
+       e.preventDefault();
+       $.ajax({
+           url: "/change_pw",
+           method: "get",
+           data: {login: "{{passenger.nickname}}", old_pw: $("#old_pw").val(), new_pw: $("#new_pw").val(), confirm_new_pw: $("#confirm_new_pw").val()},
+           success: function(returnValue){
+             var data = JSON.parse(returnValue);
+             if(data.status == "OK") {
+               alert("Haslo zostalo zmienione");
+             } else {
+               alert("Podczas zmieniania hasla wystapil blad: " + data.error_msg);
+             }
+           }
+       });
+     });
+   });
+
+   function reserve_tickets(tickets) {
+      var ticket_list = tickets.split(',');
+      ticket_list.forEach(function(ticket) {
+          $.ajax({
+               url: "/reserve_tickets",
+               method: "get",
+               data: {login: "{{passenger.nickname}}", ticket: ticket},
+               success: function(returnValue){
+                     var data = JSON.parse(returnValue);
+                     console.log(data.status);
+                     if (data.status == "OK") {
+                       var flight_info = data.flight_info
+                       $('#my_tickets tr:last')
+                        .after("<tr id=\""+flight_info.res_num+"\"><td>"+flight_info.res_num+"</td><td>"+flight_info.destination+"</td><td>"+flight_info.date+"</td><td>"+flight_info.seat_class+"</td><td>"+flight_info.seat_number+"</td><td>"+flight_info.price+"</td>"+(flight_info.status == "Not Paid" ? "<td><button onclick=\"purchase_reservation('"+flight_info.res_num+"')\">ZAPŁAC</button></td>" : "<td>"+flight_info.status+"</td>")+"<td><button onclick=\"resign('"+flight_info.res_num+"')>REZYGNUJ</button></td></tr>")
+                       $('#'+ticket).remove();
+                       self.location.href=('user_dashboard.html?login={{passenger.nickname}}&password={{passenger.password}}');
+                     }
+                     else {
+                       alert("Ups! Miejsce " + ticket + " zostalo przed chwila zarezerwowane. Prosze wybrać inne miejsce.")
+                     }
+               }
+          });
+      });
+   }
+</script>
+<body>
+<div id="container">
+	
+	<div id="logo">
+		<img src="{% static "image/plane.png" %}" />
+	</div>
+
+	<div id="menu">	
+		<ol>
+			<li><a href="/">Strona główna</a></li>
+			<li><a href="/">Wyloguj</a></li>
+		</ol>
+	</div>
+	
+	
+	<div id="content">
+	
+		<div id ="main">
+			<div id ="log">
+				<div id="user_dashboard">
+					<b>Hello: {{passenger.nickname}}</b>
+				</div>
+			</div>
+
+			
+			{% if flight_pk %}
+			<script>
+				$(get_seats("{{flight_pk}}"));
+			</script>
+			{% endif %}
+			{% if flights_to_reserve %}
+			<script>
+				$(reserve_tickets("{{flights_to_reserve}}"));
+			</script>
+			{% endif %}
+
+			<div id ="mainR">
+			<h3>Zmiana hasła:</h3><br/><br/>
+
+				<b>Stare haslo: </b><input type="text" id="old_pw"><br/><br/>
+				<b>Nowe haslo: </b><input type="text" id="new_pw" /><br/><br/>
+				<b>Nowe haslo: </b><input type="text" id="confirm_new_pw" /><br/><br/>
+				<input id="change_password" type="button" value="Zmien haslo" /><br/>
+			</div>
+			
+			<div id ="mainL">
+			<h3>Moje dane</h3>
+			<b>Imie: </b>{{passenger.name}}<br/>
+			<b>Nazwisko: </b>{{passenger.surname}}<br/>
+			<b>Email: </b>{{passenger.email}}<br/>
+			</div>
+			
+			<div id ="mainR">			
+			<h3>Edycja danych:</h3><br/><br/>
+
+				<b>Imie: </b><input type="text" id="new_name" value="{{passenger.name}}"/></p>
+				<b>Nazwisko: </b><input type="text" id="new_surname" value="{{passenger.surname}}"/></p>
+				<b>Email: </b><input type="text" id="new_email" value="{{passenger.email}}"/></p>
+				<p><input id="change_personal_data" type="button" value="Zmien dane" /></p>
+
+			 </div>
+			  
+			 <div id ="mainC">
+			<h1>Wybór lotu</h1>
+				
+					<b>Date: </b><input type="text" id="datepicker" readonly><br/>
+					<b>Destination: </b><input type="text" id="destination" /><br/><br/>
+					<input id="submit" type="button" value="Pokaz loty" />
+				
+				  
+			</div>
+			</div>
+			</div>	
+			  <div id="flights"></div>
+			  <div id="seats"></div>
+
+			<div id ="mainD">
+				<table id="my_tickets">
+					<caption><b>Moje bilety</b></caption>
+					<tr><td>RESRVATION ID</td><td>CEL</td><td>KIEDY</td><td>KLASA</td><td>NR MIEJSCA</td><td>CENA</td><td>STATUS</td><td>REZYGNUJ</td></tr>
+				</table>
+			</div>
+			
+			<div id ="footer">
+				Wszystkie prawa zastrzeżone &copy;
+			</div>		
+</div>
+</body>
+</html>

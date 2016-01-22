@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lotnisko_main_page.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+  function move_to_dashboard(flight_pk, flights_to_reserve) {
+    var fp = flight_pk;
+    var login = $("#login").val();
+    var pw = $("#password").val();
+    self.location.href=('user_dashboard.html?login='+login+'&password='+pw+'&flight_pk='+fp+'&flights_to_reserve='+flights_to_reserve)
+  }
+
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+</head>
+
+<body>
+<div id="container">
+	
+	<div id="logo">
+		<img src="{% static "image/plane.png" %}" />
+	</div>
+	
+	<div id="menu">	
+		<ol>
+			<li><a href="/">Strona główna</a></li>
+			<li><a href="reservation_page.html">Wyszukaj lot</a></li>
+			<li><a href="registration_page.html">Rejestracja</a></li>
+			<li><a href="#">Logowanie</a>
+				<ul>
+					<li><a href="user_login.html">Użytkownik</a></li>
+					<li><a href="admin">Pracownik</a></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+
+		<div id="center">
+			<h3>Logowanie</h3>
+			{% if login_fail %}
+				<div>INCORRECT LOGIN OR PASSWORD. PLEASE TRY AGAIN OR SIGN IN IF YOU ARE NOT REGISTERED</div>
+			{% endif %}
+				<div><b>Login: </b><input id="login"/></div>
+				<div><b>Haslo: </b><input id="password"/></div>
+			<div><button onclick="move_to_dashboard('{{flight_pk}}', '{{flights_to_reserve}}')">Zaloguj</button><button onClick="self.location.href=('registration_page.html?flight_pk={{flight_pk}}')">Zarejestruj się</button></div>
+		</div>
+		
+		<div id="centerF">	
+			Wszystkie prawa zastrzeżone &copy;
+		</div>
+	</div>
+</body>
+</html>

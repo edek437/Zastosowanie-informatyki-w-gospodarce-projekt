@@ -1,0 +1,88 @@
+<script>
+    function try_to_reserve_tickets(){
+      if($('#user_dashboard').length) {
+          var ticket_to_reserve=[];
+          var status="";
+          $( "#tickets_to_reserve" ).find(".ticket").each(function() {
+              reserve_tickets(this.id);
+          });
+      }  else {
+          var ticket_to_reserve=[]
+          $( "#tickets_to_reserve" ).find(".ticket").each(function() {
+             ticket_to_reserve.push(this.id)
+          });
+          var ticket_string = ticket_to_reserve.join(",");
+          self.location.href=('user_login.html?flights_to_reserve='+ticket_string)
+      }
+    }
+
+    function add_ticket(fpk, date, destination, seat_class, seat_prize, seat_number){
+      if($('#'+seat_number+'-'+seat_class).css("background-color") == "rgb(255, 0, 0)") {
+        alert('Przepraszamy. To miejsce jest już zarezerwowane :(. Prosimy wybrac inne');
+        return;
+      }
+      $('#'+seat_number+'-'+seat_class).css("background-color","red");
+      $('#tickets_to_reserve tr:last')
+        .after('<tr class="ticket" id="'+fpk+'-'+seat_number+'-'+seat_class+'"><td>'+fpk+'</td><td>'+date+'</td><td>'+destination+'</td><td>'+seat_class+'</td><td>'+seat_prize+'PLN</td><td>'+seat_number+'</td><td><button class="btn">Usun</button></td></tr>');
+      $('#'+fpk+'-'+seat_number+'-'+seat_class).click(function(){
+          remove_ticket(fpk+'-'+seat_number+'-'+seat_class);
+      });
+    }
+
+    function remove_ticket(details){
+      $('#'+details).remove();
+      var colorDict={
+        "first": "hotpink",
+        "business": "orange",
+        "economic": "green"
+      };
+      fpk_snbr_sclass=details.split('-');
+      $('#'+fpk_snbr_sclass[1]+'-'+fpk_snbr_sclass[2]).css("background-color", colorDict[fpk_snbr_sclass[2]]);
+    }
+</script>
+
+<b>Kliknij na miejsca, żeby dodac je do listy zarezerwowanych miejsc:</b>
+
+<table>
+     <caption>Miejsca dla lotu {{flight.flight_number}} do {{flight.destination}}</caption>
+     <tr>
+     {% for i in fc %}
+         {% if i in rfc %}
+         <td id="{{i}}-first" bgcolor="red" onclick="alert('Przepraszamy. To miejsce jest już zarezerwowane :(. Prosimy wybrac inne')">{{i}}</td>
+         {% else %}
+         <td id="{{i}}-first" bgcolor="hotpink" onclick="add_ticket('{{flight.flight_number}}', '{{flight.flight_date}}', '{{flight.destination}}', 'first', {{flight.first_class_seat_price}} , '{{i}}')">{{i}}</td>
+         {% endif %}
+     {% endfor %}
+      </tr>
+     <tr>
+     {% for j in bc %}
+         {% if j in rbc %}
+         <td id="{{j}}-business" bgcolor="red" onclick="alert('Przepraszamy. To miejsce jest już zarezerwowane :(. Prosimy wybrac inne')">{{j}}</td>
+         {% else %}
+         <td id="{{j}}-business" bgcolor="orange" onclick="add_ticket('{{flight.flight_number}}', '{{flight.flight_date}}', '{{flight.destination}}', 'business', {{flight.business_class_seat_price}} , '{{j}}')">{{j}}</td>
+         {% endif %}
+     {% endfor %}
+     </tr>
+     <tr>
+     {% for k in ec %}
+         {% if k in rec %}
+         <td id="{{k}}-economic" bgcolor="red" onclick="alert('Przepraszamy. To miejsce jest już zarezerwowane :(. Prosimy wybrac inne')">{{k}}</td>
+         {% else %}
+         <td id="{{k}}-economic" bgcolor="green" onclick="add_ticket('{{flight.flight_number}}', '{{flight.flight_date}}', '{{flight.destination}}', 'economic', {{flight.economic_class_seat_price}} , '{{k}}')">{{k}}</td>
+         {% endif %}
+     {% endfor %}
+     </tr>
+</table>
+	
+<ul>
+    <h2>Legenda</h2><br/>
+	Czerwone: zarezerwowane<br/>
+	Zielone: klasa ekonomiczna<br/>
+	Zolte: Klasa biznesowa<br/>
+	Rozowe: 1st klasa<br/>
+</ul>
+<table style="width:100%; text-align:center" id="tickets_to_reserve">
+    <caption>Wybrane miejsca</caption>
+    <tr><td>NR LOTU</td><td>DATA</td><td>CEL</td><td>KLASA</td><td>CENA</td><td>NR MIEJSCA</td><td>Odznacz miejsce</td></tr>
+</table>
+<button onclick="try_to_reserve_tickets()">Zarezerwuj wybrane miejsca</button>

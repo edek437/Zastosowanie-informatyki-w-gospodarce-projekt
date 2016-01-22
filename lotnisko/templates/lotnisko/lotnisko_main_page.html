@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lotnisko_main_page.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+  function get_next_departues() {
+       $.ajax({
+           url: "/current_departues",
+           method: "get",
+           data: {},
+           success: function(data2){ $('#departues').html(data2); }
+       });
+   }
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Strona główna</title>
+</head>
+
+<body onload="get_next_departues()">
+
+	<div id="container">
+	
+	<div id="logo">
+		<img src="{% static "image/plane.png" %}" />
+	</div>
+	
+	<div id="departues"></div>
+	
+	<div id="menu">	
+		<ol>
+			<li><a href="/">Strona główna</a></li>
+			<li><a href="reservation_page.html">Wyszukaj lot</a></li>
+			<li><a href="registration_page.html">Rejestracja</a></li>
+			<li><a href="#">Logowanie</a>
+				<ul>
+					<li><a href="user_login.html">Użytkownik</a></li>
+					<li><a href="admin">Pracownik</a></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+	
+	<div id="content">
+	
+		<div id="topbar">
+			<h2>Nasza dewiza to: Precyzyjnie, Szybko i Komfortowo .....</h2>
+		</div>
+	
+		<div id ="main">
+			<h1>Aktualności</h1>
+			<div id ="post">
+				<div id ="hd">
+					7,6% wzrostu w grudniu
+				</div>
+				
+				<div id ="img">
+					<img src="{% static "image/tar.jpg" %}" />
+				</div>
+					<div id ="text">
+						<b>Wrocławskie lotnisko obsłużyło w grudniu 2015 roku 155 tys. pasażerów. To o 7,6% więcej niż w grudniu 2014 roku. To był dobry miesiąc dla połączeń niskokosztowych oraz sieciowych międzynarodowych.</b><br/><br/>
+						Port Lotniczy Wrocław od początku roku każdego miesiąca notował wzrosty. Również grudzień zamknął na plusie. 155 tys. obsłużonych pasażerów przełożyło się na 7,6% wzrostu w odniesieniu do analogicznego miesiąca 2014 roku.
+						Duży wzrost zanotowano w segmencie połączeń niskokosztowych – w grudniu obsłużono 98,4 tys. pasażerów, co dało 16% wzrostu w stosunku do grudnia 2014. Najwięcej podróżnych przybyło na trasach na Wyspy Brytyjskie: do Londynu, Glasgow, Liverpoolu czy Bristolu. Na wielu z nich przewoźnicy wprowadzili w okresie świątecznym dodatkowe operacje lotnicze.<br/>
+						O 5,6% wzrosła liczba pasażerów podróżujących liniami sieciowymi na trasach międzynarodowych (blisko 23,7 tys. obsłużonych osób). Najchętniej wybierane były połączenia do Frankfurtu i Monachium.
+						- Grudzień przypieczętował sukcesy notowane w ciągu ostatnich 12 miesięcy. W całym roku obsłużyliśmy w sumie 2 miliony 320 tysięcy pasażerów, to jest o ponad 11% więcej niż rok wcześniej. To nowy rekord w historii wrocławskiego lotniska i znakomita prognoza na przyszłość – mówi Dariusz Kuś, prezes Portu Lotniczego Wrocław. – Przewidujemy, że w roku 2016 obsłużymy 2,5 miliona pasażerów.<br/>
+						Siatka połączeń nadal będzie się poszerzać, m.in. o połączenia niskokosztowe do Birmingham, Wenecji Treviso i czarterowe na greckie wyspy Thassos oraz Lefkadę, do Alicante oraz Barcelony El Prat.
+					</div>
+				
+			</div>
+			<div id ="post">
+				<div id ="hd">
+					Nowe połączenie z wrocławskiego lotniska
+				</div>
+				
+				<div id ="img">
+					<img src="{% static "image/lotnisko.jpg" %}" />
+				</div>
+					<div id ="text">
+					<b>Tanie linie Wizz Air zapowiedziały uruchomienie nowego połączenia z Wrocławia do Birmingham. Pierwszy samolot wystartuje w marcu. Loty będą realizowane dwa razy w tygodniu: w poniedziałki oraz piątki.</b><br/><br/>
+
+						Już w marcu 2016 roku siatka połączeń wrocławskiego lotniska zostanie wzbogacona o kolejny kierunek. Pasażerowie bezpośrednio ze stolicy Dolnego Śląska dostaną się do Birmingham w Anglii, a podróż zajmie nieco ponad dwie godziny. Nowe połączenie wprowadzą do oferty tanie linie lotnicze Wizz Air.
+						- Birmingham znakomicie uzupełni rozkład lotów wrocławskiego lotniska oraz linii Wizz Air, które oferują zarówno połączenia na Wyspy Brytyjskie, jak też inne atrakcyjne kierunki europejskie – mówi Dariusz Kuś, prezes Portu Lotniczego Wrocław. – Lotami na trasie z i do Birmingham z pewnością będą zainteresowani pasażerowie związani zawodowo z tym miastem, ich rodziny, a także turyści, chcący spędzić udany weekend poza Wrocławiem.<br/>
+						Birmingham to jedno z największych miast w Anglii, a cała aglomeracja pod względem liczby ludności plasuje się na drugim miejscu za Londynem. Jest ważnym ośrodkiem handlowym i przemysłowym o długich tradycjach. To miasto parków, kanałów, które kiedyś pełniły rolę sieci transportowej, a także zabytków, przenikających się z nowoczesną architekturą i instalacjami. Turystom sprzyja dobrze zorganizowana komunikacja miejska.
+						Podróże na city break do Birmingham ułatwią dopasowane dni – poniedziałki i piątki – oraz godziny rejsów:<br/><br/>
+
+						Wrocław – Birmingham: wylot o godz. 19:30 – lądowanie o godz. 20:50<br/>
+						Birmingham – Wrocław: wylot o godz. 21:20 – lądowanie o godz. 00:35<br/><br/>
+						Pierwszy lot na trasie Wrocław-Birmingham zaplanowany jest na 18 marca 2016 roku. Sprzedaż biletów rozpoczęła się 9 grudnia 2015r. Ceny od 79 zł.
+						Wizz Air działa na wrocławskim lotnisku od 2006 roku. Wtedy uruchomił swoje pierwsze połączenie do Dortmundu. Cztery lata później otworzył we Wrocławiu swoją bazę operacyjną, w której obecnie stacjonuje samolot Airbus A320. Obecnie obsługuje siedem tras do sześciu krajów: Dortmund, Londyn-Luton, Eindhoven, Doncaster-Sheffield, Oslo-Torp, Paryż-Beauvais, a od września 2015 roku Sztokholm-Skavsta. Przez dziewięć lat węgierski przewoźnik obsłużył w Porcie Lotniczym Wrocław ok. dwóch milionów pasażerów.
+					</div>
+				
+			</div>
+			<div id ="post">
+				<div id ="hd">
+					Stabilny wzrost na wrocławskim lotnisku
+				</div>
+				
+				<div id ="img">
+					<img src="{% static "image/img1.jpg" %}" />
+				</div>
+					<div id ="text">
+					<b>W listopadzie Port Lotniczy Wrocław obsłużył ponad 159 tys. pasażerów, czyli o 2,2% więcej niż w analogicznym okresie poprzedniego roku. Największy wzrost odnotowali przewoźnicy niskokosztowi, łącznie o 15,6%. Popularnością cieszy się wiele tras zarówno na południe Europy, jak i na Wyspy Brytyjskie.</b><br/><br/>
+
+						W listopadzie 2015 nadal dużą popularnością cieszyły się kierunki południowe. W porównaniu do listopada 2014 na przykład na trasie do Mediolanu (Bergamo) przybyło 14,1% pasażerów, 8,7% do Bolonii, 7,3% do Paryża, a 4,8% do Barcelony (Girony).
+						– Warto podkreślić, że samoloty na trasie do Mediolanu wypełnione były w 90%, a na wielu innych południowych kierunkach w ponad 80%. To znakomity wynik. O tej porze roku podróżni chętnie wybierają się na krótkie wyjazdy, a ciekawe europejskie miasta jesienią i zimą mają do zaoferowania mnóstwo atrakcji – mówi Jarosław Sztucki, dyrektor ds. marketingu i sprzedaży w Porcie Lotniczym Wrocław.
+						Dużym powodzeniem cieszą się także nowości – Teneryfa (Ryanair) oraz Sztokholm (Wizz Air). Połączenie na największą z Wysp Kanaryjskich wystartowało 4 listopada. Na niektóre loty w listopadzie bilety zostały wyprzedane z dużym wyprzedzeniem.<br/><br/>
+						– To pokazuje, że nasza siatka połączeń jest atrakcyjna, a nowe trasy jeszcze wzbogacają ofertę. W letniej siatce pojawi się Wenecja-Treviso. To połączenie także może się okazać przebojem. Stabilny wzrost liczby pasażerów zawdzięczamy również wygodnemu dojazdowi i wysokim standardom obsługi – dodaje Jarosław Sztucki.
+						Tradycyjnie popularne są loty na Wyspy Brytyjskie. W przypadku wielu połączeń do Anglii, Szkocji i Irlandii wypełnienia przekraczają 90%. W listopadzie 2015 największe wzrosty odnotowano na trasach do Londynu Luton (34,6%), Shannon (18,3%), Glasgow (16,2%) i Londynu Stansted (11,2%).<br/>
+						Wśród międzynarodowych połączeń sieciowych największy wzrost odnotowały linie SAS na trasie do Kopenhagi (39,3%) oraz Lufthansa do Monachium (5,8%).
+						Od początku roku wrocławskie lotnisko obsłużyło blisko 2 miliony 165 tys. pasażerów. Ubiegłoroczny rekord został pobity już pod koniec października. Przedstawiciele Portu Lotniczego Wrocław szacują, że do końca roku lotnisko osiągnie liczbę około 2,3 miliona podróżnych.
+					</div>
+				<div style="clear:both;"></div>
+			</div>	
+		</div>
+			<div id ="footer">
+				Wszystkie prawa zastrzeżone &copy;
+			</div>		
+	</div>
+
+
+	</div>
+<body/>
+<html/>

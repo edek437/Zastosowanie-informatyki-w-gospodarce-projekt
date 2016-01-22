@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lotnisko_main_page.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+ function register_user(fp) {
+   $.ajax({
+	   url: "/add_passenger",
+	   method: "get",
+	   data: { nickname: $('#nickname').val(),
+        password: $('#password').val(),
+        name: $('#name').val(),
+        surname: $('#surname').val(),
+        email: $('#email').val()
+       },
+	   success: function(returnValue){
+	        data = JSON.parse(returnValue)
+			if(data.status == "OK") {
+			   self.location.href=('user_dashboard.html?login='+data.passenger+'&password='+data.pw+'&flight_pk='+data.flight_pk+'&flights_to_reserve=');
+			} else {
+				alert("Wystapil blad: " + returnValue);
+			}
+	   }
+   });
+}
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+</head>
+
+<body>
+<div id="container">
+	<div id="logo">
+		<img src="{% static "image/plane.png" %}" />
+	</div>
+	
+	<div id="menu">	
+		<ol>
+			<li><a href="/">Strona główna</a></li>
+			<li><a href="reservation_page.html">Wyszukaj lot</a></li>
+			<li><a href="registration_page.html">Rejestracja</a></li>
+			<li><a href="#">Logowanie</a>
+				<ul>
+					<li><a href="user_login.html">Użytkownik</a></li>
+					<li><a href="admin">Pracownik</a></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+
+		<div id="center">
+			<h3>Rejestracja</h3>
+			{% if registration_fail_message %}
+				<p>ERROR! {{registration_fail_message}}</p>
+			{% endif %}
+				<div><b>Login: </b><input id="nickname"/></div>
+				<div><b>Password: </b><input id="password" /></div>
+				<div><b>Name: </b><input id="name" /></div>
+				<div><b>Surname: </b><input id="surname"/></div>
+				<div><b>Email: </b><input id="email"/></div>
+			<div><button onclick="register_user({{flight_pk}})">Zarejestruj</button></div>
+		</div>
+		
+		<div id="centerF">	
+			Wszystkie prawa zastrzeżone &copy;
+		</div>
+	</div>
+</body>
+</html>
