@@ -56,9 +56,11 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Zastosowanie_informatyki_w_gospodarce/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7417582">
-              <caret line="102" column="1" selection-start-line="102" selection-start-column="1" selection-end-line="102" selection-end-column="1" />
-              <folding />
+            <state vertical-scroll-proportion="0.23076923">
+              <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+              <folding>
+                <element signature="e#410#419#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -799,9 +801,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Zastosowanie_informatyki_w_gospodarce/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7417582">
-          <caret line="102" column="1" selection-start-line="102" selection-start-column="1" selection-end-line="102" selection-end-column="1" />
-          <folding />
+        <state vertical-scroll-proportion="0.23076923">
+          <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+          <folding>
+            <element signature="e#410#419#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
