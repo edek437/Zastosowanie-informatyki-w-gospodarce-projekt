@@ -157,7 +157,18 @@ def user_dashboard_mobile(request):
     flights_to_reserve = request.GET.get("flights_to_reserve")
     if validate_password(login, password):
         passenger = Passenger.objects.filter(nickname=login)[0]
-        return JsonResponse({'status': 'OK', 'flight_pk': flight_pk, 'flights_to_reserve': flights_to_reserve, 'passenger': passenger})
+        return JsonResponse({
+            'status': 'OK',
+            'flight_pk': flight_pk,
+            'flights_to_reserve': flights_to_reserve,
+            'passenger': {
+                "login": passenger.nickname,
+                "password": passenger.password,
+                "email": passenger.email,
+                "name": passenger.name,
+                "surname": passenger.surname
+            }
+        })
     else:
         return JsonResponse({'status': 'NOK', "errorr_msg": "Credential validation failed"})
 
