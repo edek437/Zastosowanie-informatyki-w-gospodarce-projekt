@@ -165,6 +165,10 @@ def remove_from_flight(fpk_snbr_sclass):
 @transaction.atomic
 def add_reservation(data):
     fpk_snbr_sclass = data["fpk_snbr_sclass"].split('-')
+    passenger=Passenger.objects.filter(nickname=data['login'])
+    if len(passenger) == 0:
+        msg='login %s does not exist' % (data['login'])
+        return {'status': 'NOK', 'error_msg': msg }
     reservation = Reservation(
          reservation_id=data["fpk_snbr_sclass"],
          passenger=Passenger.objects.filter(nickname=data['login'])[0],

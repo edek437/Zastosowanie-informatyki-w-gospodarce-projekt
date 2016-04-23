@@ -74,7 +74,7 @@ def get_flights_mobile(request):
     flights_dict['flights'] = flights_arr
     flights_dict['date'] = py_date
     return JsonResponse(flights_dict)
-    return render(request, "lotnisko/flightsForm.html", {'flights': flights, 'date': py_date})
+
 
 def get_flights(request):
     date = request.GET.get("date")
@@ -265,7 +265,6 @@ def show_seats(request):
 
 def reserve_tickets_mobile(request):
     fpk_snbr_sclass = request.GET.get("ticket").split('-')
-    fpk_snbr_sclass = fpk_snbr_sclass.split('-')
     login = request.GET.get("login")
     error_msg = ''
     print fpk_snbr_sclass
