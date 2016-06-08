@@ -280,7 +280,7 @@ def reserve_tickets_mobile(request):
               "error_msg": str(e)
             })
     print "up filght passed"
-    data = add_reservation({'login': login, 'fpk_snbr_sclass': "AAAAAA-2-first" })
+    data = add_reservation({'login': login, 'fpk_snbr_sclass': request.GET.get("ticket")})
     return JsonResponse(data)
 
 
@@ -442,7 +442,7 @@ def assign_flight_to_start_lane(request):
         f = Flight.objects.filter(flight_number=fpk)[0]
         f.start_lane = StartLane.objects.filter(name=start_lane)[0]
         f.save()
-    except Exception, e:
+    except Exception as e:
         return HttpResponse(json.dumps({'status': '; '.join(e.message)}))
     finally:
         return HttpResponse(json.dumps({'status':"OK"}))
