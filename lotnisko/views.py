@@ -227,7 +227,7 @@ def add_passenger(request):
 
 
 def show_seats_mobile(request):
-    flight_pk = "AAAAAA" #request.GET.get("flight_pk")
+    flight_pk = request.GET.get("flight_pk")
     print flight_pk
     flight = Flight.objects.filter(flight_number=flight_pk)
     if not flight:
@@ -307,7 +307,7 @@ def cancel_reservation_mobile(request):
             'fpk_snbr_sclass': request.GET.get("ticket")
         })
     except Exception as e:
-        return  JsonResponse({"status": "NOK!", "error_msg": str(e)})
+        return JsonResponse({"status": "NOK!", "error_msg": str(e)})
     return JsonResponse({"status": "OK!"})
 
 
@@ -317,7 +317,7 @@ def cancel_reservation(request):
             'fpk_snbr_sclass': request.GET.get("ticket")
         })
     except Exception as e:
-        return  HttpResponse("NOK!")
+        return HttpResponse("NOK!")
     return HttpResponse("OK!")
 
 
@@ -337,6 +337,7 @@ def change_personal_data_mobile(request):
     # status has fields status and error_msg
     status = update_personal_data(login, new_name, new_surname, new_email)
     return JsonResponse(status)
+
 
 def change_personal_data(request):
     login = request.GET.get("login")

@@ -147,7 +147,7 @@ def up_flight(fpk_snbr_sclass):
     res_seats = getattr(flight, 'reserved_'+fpk_snbr_sclass[2]+'_class_seats_numbers')
     if fpk_snbr_sclass[1] in string_to_int_list(res_seats):
         return "Miejsce %s zostalo zarezerwowane. Sproboj wybrac inne." % fpk_snbr_sclass
-    setattr(flight, 'reserved_'+fpk_snbr_sclass[2]+'_class_seats_numbers', res_seats+fpk_snbr_sclass[1]+',')
+    setattr(flight, 'reserved_'+fpk_snbr_sclass[2]+'_class_seats_numbers', res_seats+','+fpk_snbr_sclass[1]+',')
     flight.save()
 
 
@@ -165,9 +165,9 @@ def remove_from_flight(fpk_snbr_sclass):
 @transaction.atomic
 def add_reservation(data):
     fpk_snbr_sclass = data["fpk_snbr_sclass"].split('-')
-    passenger=Passenger.objects.filter(nickname=data['login'])
+    passenger = Passenger.objects.filter(nickname=data['login'])
     if len(passenger) == 0:
-        msg='login %s does not exist' % (data['login'])
+        msg = 'login %s does not exist' % (data['login'])
         return {'status': 'NOK', 'error_msg': msg }
     reservation = Reservation(
          reservation_id=data["fpk_snbr_sclass"],
